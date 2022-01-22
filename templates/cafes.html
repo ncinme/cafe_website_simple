@@ -1,0 +1,43 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+   {{ super() }}
+   <link  rel= "stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" >
+{% endblock %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h1>All Cafes</h1>
+        <!-- Jinja builtin tests https://www.webforefront.com/django/usebuiltinjinjafilters.html -->
+	  <table class="table">
+          {% for cafe in cafes %}
+              <tr>
+                {% for item in cafe %}
+                    {% if item is string and item[0:4] == "http" %}
+                    <td>{{ item|urlize(10, target="_blank")}}</td>
+                    {% else %}
+                    <td>{{ item }}</td>
+                    {% endif %}
+                {% endfor %}
+                {% if  cafe != cafes[0] %}
+                  <td><a class="btn btn-primary float-right" href="{{url_for('delete_cafe', cafe_id=cafe[0])}}">X</a></td>
+                  {% else%}
+                  <td>Delete</td>
+                {% endif %}
+              </tr>
+          {% endfor %}
+  	  </table>
+
+      <p><a href="{{ url_for('home') }}">Return to index page</a></p>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
