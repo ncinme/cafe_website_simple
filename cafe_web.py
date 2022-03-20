@@ -15,8 +15,6 @@ load_dotenv()
 API_URL = os.environ.get("API_URL")
 API_KEY = os.environ.get("API_KEY")
 
-print(f'first: {API_URL}')
-
 app_web = Flask(__name__)
 app_web.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")       # read from .env file
 Bootstrap(app_web)
@@ -68,10 +66,8 @@ def add_cafe():
         #         "x-app-key": API_KEY,
                 "Content-Type": "application/json",
             }
-        print(API_URL)
         response = requests.post(url=cafe_endpoint, json=cafe_parameters, headers=cafe_headers)
         response.raise_for_status()
-        print(f'add: {response.json()}')
         return redirect(url_for('cafes'))
     return render_template('add.html', form=form)
 
@@ -90,9 +86,13 @@ def delete_cafe(cafe_id):
     # http://127.0.0.1:5000/report-closed/25?api-key=TopSecretAPIKey
 
     response = requests.delete(f"{API_URL}/report-closed/{cafe_id}?api-key={API_KEY}")
-    print(f"delete: {response.json()}")
     return redirect(url_for('cafes'))
 
 if __name__ == '__main__':
-    app_web.run(debug=True, host="127.0.0.1", port=8000)
+    # app_web.run(debug=True, host="127.0.0.1", port=8000)
+    app_web.run(debug=True)
+    # port = int(os.environ.get('PORT', 5800))
+    # app_web.run(debug=True, host='0.0.0.0', port=port)
+
+
 

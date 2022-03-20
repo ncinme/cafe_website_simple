@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      API_KEY: "TopSecretAPIKey"
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    ports:
+      - "5800:5800"
+    environment:
+      SECRET_KEY: "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
+      API_KEY: "TopSecretAPIKey"
+      API_URL: "http://api:5000/"
